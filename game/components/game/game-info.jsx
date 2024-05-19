@@ -41,8 +41,8 @@ const players = [
 ];
 
 export function GameInfo({ playersCount, currentStep, className }) {
-  console.log(` `);
-  console.log(`currentStep: ${currentStep}`);
+  // console.log(` `);
+  // console.log(`currentStep: ${currentStep}`);
   return (
     <div
       className={clsx(
@@ -79,16 +79,16 @@ function PlayerInfo({ player, isRight, isTimerRunning }) {
   };
 
   useEffect(() => {
-    console.log(`useEffect ${player.name} work`);
+    // console.log(`useEffect ${player.name} work`);
     if (isTimerRunning) {
       const interval = setInterval(() => {
         setSeconds((s) => Math.max(s - 1, 0));
       }, 1000);
 
-      console.log(`useEffect if ${player.name} work`);
+      // console.log(`useEffect if ${player.name} work`);
 
       return () => {
-        console.log(`useEffect return ${player.name} work`);
+        // console.log(`useEffect return ${player.name} work`);
         clearInterval(interval);
         setSeconds(25);
       };
