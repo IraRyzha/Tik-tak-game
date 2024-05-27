@@ -47,8 +47,6 @@ export function GameInfo({
   isWinner,
   onPlayerTimeOver,
 }) {
-  // console.log(` `);
-  // console.log(`currentStep: ${currentStep}`);
   return (
     <div
       className={clsx(
@@ -86,16 +84,12 @@ function PlayerInfo({ player, isRight, isTimerRunning, onTimeOver }) {
   };
 
   useEffect(() => {
-    // console.log(`useEffect ${player.name} work`);
     if (isTimerRunning) {
       const interval = setInterval(() => {
         setSeconds((s) => Math.max(s - 1, 0));
       }, 1000);
 
-      // console.log(`useEffect if ${player.name} work`);
-
       return () => {
-        // console.log(`useEffect return ${player.name} work`);
         clearInterval(interval);
         setSeconds(5);
       };
