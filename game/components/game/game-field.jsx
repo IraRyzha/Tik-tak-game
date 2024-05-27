@@ -8,6 +8,7 @@ export function GameField({
   nextStep,
   handleCellClick,
   winnerSequence,
+  winnerSymbol,
   className,
 }) {
   const actions = (
@@ -34,6 +35,7 @@ export function GameField({
             <GameCell
               key={index}
               isWinner={winnerSequence?.includes(index)}
+              disabled={!!winnerSymbol}
               onClick={() => handleCellClick(index)}
             >
               {cell && <GameSymbol symbol={cell} className="h-5 w-5" />}
@@ -45,10 +47,11 @@ export function GameField({
   );
 }
 
-function GameCell({ children, onClick, isWinner }) {
+function GameCell({ children, onClick, isWinner, disabled }) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={clsx(
         "border border-slate-200 -ml-px -mt-px flex items-center justify-center",
         isWinner && "bg-orange-600/10",

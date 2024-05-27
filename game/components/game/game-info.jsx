@@ -40,7 +40,13 @@ const players = [
   },
 ];
 
-export function GameInfo({ playersCount, currentStep, className }) {
+export function GameInfo({
+  playersCount,
+  currentStep,
+  className,
+  isWinner,
+  onPlayerTimeOver,
+}) {
   // console.log(` `);
   // console.log(`currentStep: ${currentStep}`);
   return (
@@ -55,15 +61,16 @@ export function GameInfo({ playersCount, currentStep, className }) {
           key={player.id}
           player={player}
           isRight={index % 2 === 1}
-          isTimerRunning={player.symbol === currentStep}
+          isTimerRunning={player.symbol === currentStep && !isWinner}
+          onTimeOver={() => onPlayerTimeOver(player.symbol)}
         />
       ))}
     </div>
   );
 }
 
-function PlayerInfo({ player, isRight, isTimerRunning }) {
-  const [seconds, setSeconds] = useState(25);
+function PlayerInfo({ player, isRight, isTimerRunning, onTimeOver }) {
+  const [seconds, setSeconds] = useState(5);
 
   const minutesString = String(Math.floor(seconds / 60)).padStart(2, "0");
   const secondsString = String(Math.floor(seconds % 60)).padStart(2, "0");
@@ -90,10 +97,16 @@ function PlayerInfo({ player, isRight, isTimerRunning }) {
       return () => {
         // console.log(`useEffect return ${player.name} work`);
         clearInterval(interval);
-        setSeconds(25);
+        setSeconds(5);
       };
     }
   }, [isTimerRunning]);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      onTimeOver();
+    }
+  }, [seconds]);
 
   return (
     <div className="flex items-center gap-4 start dev">

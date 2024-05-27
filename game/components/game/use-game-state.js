@@ -3,13 +3,17 @@ import { GAME_STEPS } from "./constants";
 import { computeWinner, getNextStep } from "./model";
 
 export function useGameState(playersCount) {
-  const [{ cells, currentStep }, setGameState] = useState({
+  const [{ cells, currentStep, playersTimeOver }, setGameState] = useState({
     cells: new Array(19 * 19).fill(),
     currentStep: GAME_STEPS.CROSS,
+    playersTimeOver: [],
   });
-  const nextStep = getNextStep(currentStep, playersCount);
+  const nextStep = getNextStep(currentStep, playersCount, playersTimeOver);
 
   const winnerSequence = computeWinner(cells);
+
+  const winnerSymbol =
+    currentStep == nextStep ? currentStep : cells[winnerSequence?.[0]];
 
   const handleCellClick = (index) => {
     setGameState((lastGameState) => {
@@ -18,7 +22,11 @@ export function useGameState(playersCount) {
       }
       return {
         ...lastGameState,
-        currentStep: getNextStep(lastGameState.currentStep, playersCount),
+        currentStep: getNextStep(
+          lastGameState.currentStep,
+          playersCount,
+          lastGameState.playersTimeOver,
+        ),
         cells: lastGameState.cells.map((cell, i) =>
           i === index ? lastGameState.currentStep : cell,
         ),
@@ -26,5 +34,28 @@ export function useGameState(playersCount) {
     });
   };
 
-  return { cells, currentStep, nextStep, handleCellClick, winnerSequence };
+  const handlePlayerTimeOver = (symbol) => {
+    setGameState((lastGameState) => {
+      return {
+        ...lastGameState,
+        playersTimeOver: [...lastGameState.playersTimeOver, symbol],
+        currentStep: getNextStep(
+          lastGameState.currentStep,
+          playersCount,
+          lastGameState.playersTimeOver,
+        ),
+      };
+    });
+  };
+
+  return {
+    cells,
+    currentStep,
+    nextStep,
+    playersTimeOver,
+    handleCellClick,
+    handlePlayerTimeOver,
+    winnerSequence,
+    winnerSymbol,
+  };
 }
