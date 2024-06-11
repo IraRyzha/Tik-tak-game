@@ -14,7 +14,7 @@ export default function UiButton({ children, className, size, variant }) {
     "transition-colors leading-tight",
     className,
     {
-      md: "w-24 text-sm",
+      md: "w-28 text-sm",
       lg: "w-44 text-2xl",
     }[size],
     {
