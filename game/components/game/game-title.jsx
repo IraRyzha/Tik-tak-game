@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowLeftIcon } from "./icons/arrow-left-icon";
-import { StarIcon } from "./icons/star-icon";
-import { UserIcon } from "./icons/user-icon";
-import { HistoryIcon } from "./icons/history-icon";
+import { ArrowLeftIcon } from "../game-new/ui/icons/arrow-left-icon";
+import { StarIcon } from "../game-new/ui/icons/star-icon";
+import { UserIcon } from "../game-new/ui/icons/user-icon";
+import { HistoryIcon } from "../game-new/ui/icons/history-icon";
 
 export function GameTitle({ playersCount }) {
   return (
