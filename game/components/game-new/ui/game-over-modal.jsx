@@ -1,11 +1,11 @@
 import UiButton from "../../uikit/ui-button";
 import UiModal from "../../uikit/ui-modal";
 
-export default function GameOverModal() {
+export default function GameOverModal({ winnerName, players }) {
   return (
     <UiModal
       width="md"
-      isOpen={winnerSymbol}
+      isOpen={winnerName}
       onClose={() => {
         console.log("close");
       }}
@@ -13,7 +13,10 @@ export default function GameOverModal() {
       <UiModal.Header>Game over</UiModal.Header>
       <UiModal.Body>
         <div className="text-sm">
-          Winner: <span className="text-teal-600">Ryzha</span>
+          Winner: <span className="text-teal-600">{winnerName}</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 justify-between mt-3">
+          {players}
         </div>
       </UiModal.Body>
       <UiModal.Footer>
