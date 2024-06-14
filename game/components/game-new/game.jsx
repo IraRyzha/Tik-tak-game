@@ -5,26 +5,38 @@ import { GameTitle } from "./ui/game-title";
 import { PLAYERS } from "./constants";
 import { PlayerInfo } from "./ui/player-info";
 import { GameMoveInfo } from "./ui/get-move-info";
-import { useGameState } from "./model/use-game-state";
 import { GameCell } from "./ui/game-cell";
 import { GameActions } from "./ui/game-actions";
 import GameOverModal from "./ui/game-over-modal";
+import {
+  gameStateReducer,
+  GAME_STATE_ACTIONS,
+  initGameState,
+} from "./model/game-state-reducer";
+import { useReducer } from "react";
+import { getNextStep } from "./model/get-next-step";
+import { computeWinner } from "./model/compute-winner";
+import { computeWinnerSymbol } from "./model/compute-winner-symbol";
 
-const PLAYERS_COUNT = 2;
+const PLAYERS_COUNT = 4;
 
 export default function Game() {
-  const {
-    cells,
-    currentStep,
+  const [gameState, dispatch] = useReducer(
+    gameStateReducer,
+    { playersCount: PLAYERS_COUNT },
+    initGameState,
+  );
+
+  const nextStep = getNextStep(gameState.currentStep, gameState.playersCount);
+  const winnerSequence = computeWinner(gameState.cells);
+  const winnerSymbol = computeWinnerSymbol(gameState, {
     nextStep,
-    playersTimeOver,
-    handleCellClick,
-    handlePlayerTimeOver,
     winnerSequence,
-    winnerSymbol,
-  } = useGameState(PLAYERS_COUNT);
+  });
 
   const winnerPlayer = PLAYERS.find((player) => player.symbol === winnerSymbol);
+
+  const { cells, currentStep } = gameState;
 
   return (
     <>
@@ -60,7 +72,12 @@ export default function Game() {
             symbol={cell}
             isWinner={winnerSequence?.includes(index)}
             disabled={!!winnerSymbol}
-            onClick={() => handleCellClick(index)}
+            onClick={() =>
+              dispatch({
+                type: GAME_STATE_ACTIONS.CELL_CLICK,
+                payload: { index },
+              })
+            }
           />
         ))}
       />
@@ -82,40 +99,3 @@ export default function Game() {
     </>
   );
 }
-
-// const [playersCount] = useState(4);
-//   const {
-//     cells,
-//     currentStep,
-//     nextStep,
-//     handleCellClick,
-//     handlePlayerTimeOver,
-//     winnerSequence,
-//     winnerSymbol,
-//   } = useGameState(playersCount);
-
-//   return (
-//     <React.Fragment>
-//       <GameTitle playersCount={playersCount} />
-//       <GameInfo
-//         playersCount={playersCount}
-//         currentStep={currentStep}
-//         className="mt-4"
-//         isWinner={!!winnerSymbol}
-//         onPlayerTimeOver={handlePlayerTimeOver}
-//       />
-//       <div className="my-5 w-full flex justify-center">
-//         {winnerSymbol && <GameSymbol symbol={winnerSymbol} />}
-//       </div>
-//       <GameField
-//         playersCount={playersCount}
-//         cells={cells}
-//         currentStep={currentStep}
-//         nextStep={nextStep}
-//         handleCellClick={handleCellClick}
-//         winnerSequence={winnerSequence}
-//         winnerSymbol={winnerSymbol}
-//         className="mt-6"
-//       />
-//     </React.Fragment>
-//   );
