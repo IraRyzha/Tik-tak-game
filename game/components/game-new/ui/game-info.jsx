@@ -3,6 +3,7 @@ import { StarIcon } from "./icons/star-icon";
 import { UserIcon } from "./icons/user-icon";
 
 export function GameInfo({ playersCount, isRatingGame, timeMode }) {
+  // console.log("render GameInfo");
   return (
     <div className="flex items-center gap-3 text-xs text-slate-400">
       {isRatingGame && <StarIcon />}

@@ -12,20 +12,20 @@ export function PlayerInfo({
   timer,
   timerStartAt,
 }) {
-  console.log("PlayerInfo component:");
-  console.log(timer);
-  console.log(timerStartAt);
-  console.log("");
+  // console.log("PlayerInfo component:");
+  // console.log(timer);
+  // console.log(timerStartAt);
+  // console.log("");
 
   const now = useNow(1000, timerStartAt);
   const mills = Math.max(now ? timer - (now - timerStartAt) : timer, 0);
   const seconds = Math.ceil(mills / 1000);
 
-  console.log("time in PlayerInfo component:");
-  console.log(now);
-  console.log(mills);
-  console.log(seconds);
-  console.log("");
+  // console.log("time in PlayerInfo component:");
+  // console.log(now);
+  // console.log(mills);
+  // console.log(seconds);
+  // console.log("");
 
   const minutesString = String(Math.floor(seconds / 60)).padStart(2, "0");
   const secondsString = String(Math.floor(seconds % 60)).padStart(2, "0");

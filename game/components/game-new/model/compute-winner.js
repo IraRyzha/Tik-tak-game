@@ -1,4 +1,5 @@
 export function computeWinner(gameState, sequenceSize = 5, fieldSize = 19) {
+  console.log("function computeWinner work");
   const { cells } = gameState;
   const gap = Math.floor(sequenceSize / 2);
 

@@ -27,9 +27,9 @@ export const gameStateReducer = (state, action) => {
   switch (action.type) {
     case GAME_STATE_ACTIONS.CELL_CLICK: {
       const { index, now } = action.payload;
-      console.log("action cell click work");
-      console.log(action.payload);
-      console.log(" ");
+      // console.log("action cell click work");
+      // console.log(action.payload);
+      // console.log(" ");
       if (state.cells[index]) {
         return state;
       }
@@ -43,9 +43,9 @@ export const gameStateReducer = (state, action) => {
     }
     case GAME_STATE_ACTIONS.TICK: {
       const { now } = action.payload;
-      console.log("action tick work");
-      console.log(action.payload);
-      console.log(" ");
+      // console.log("action tick work");
+      // console.log(action.payload);
+      // console.log(" ");
       if (!isTimerOver(state, now)) {
         return state;
       }
@@ -62,14 +62,14 @@ export const gameStateReducer = (state, action) => {
 };
 
 function updateCells(gameState, index) {
-  console.log("function updateCells work");
+  // console.log("function updateCells work");
   return gameState.cells.map((cell, i) =>
     i === index ? gameState.currentStep : cell,
   );
 }
 
 function updateTimers(gameState, now) {
-  console.log("function updateTimers work");
+  // console.log("function updateTimers work");
   const diff = now - gameState.currentStepStart;
   const timer = gameState.timers[gameState.currentStep];
 
@@ -80,7 +80,7 @@ function updateTimers(gameState, now) {
 }
 
 function isTimerOver(gameState, now) {
-  console.log("function isTimerOver work");
+  // console.log("function isTimerOver work");
   const timer = updateTimers(gameState, now)[gameState.currentStep];
 
   return timer <= 0;

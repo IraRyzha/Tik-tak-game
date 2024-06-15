@@ -1,5 +1,5 @@
 export function computePlayerTimer(gameState, player) {
-  console.log("function computePlayerTimer work");
+  // console.log("function computePlayerTimer work");
   return {
     timer: gameState.timers[player.symbol],
     timerStartAt:

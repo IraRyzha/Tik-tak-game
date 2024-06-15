@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeftIcon } from "./icons/arrow-left-icon";
 
 export function BackLink() {
   return (
@@ -6,7 +7,7 @@ export function BackLink() {
       href="#"
       className="flex items-center gap-2 -mb-0.5 text-xs font-normal text-teal-600"
     >
-      <p>here must be ArrowLeftIcon</p>
+      <ArrowLeftIcon />
       Back to main
     </Link>
   );

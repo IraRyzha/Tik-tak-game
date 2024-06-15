@@ -26,7 +26,6 @@ export function useInterval(interval, enabled, cb) {
     if (!enabled) {
       return;
     }
-
     const int = setInterval(() => {
       cb(Date.now);
     }, interval);

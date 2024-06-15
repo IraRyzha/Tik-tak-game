@@ -13,7 +13,7 @@ import {
   GAME_STATE_ACTIONS,
   initGameState,
 } from "./model/game-state-reducer";
-import { useReducer } from "react";
+import { useCallback, useMemo, useReducer } from "react";
 import { getNextStep } from "./model/get-next-step";
 import { computeWinner } from "./model/compute-winner";
 import { computeWinnerSymbol } from "./model/compute-winner-symbol";
@@ -33,22 +33,38 @@ export default function Game() {
     initGameState,
   );
 
-  useInterval(1000, gameState.currentStep, () => {
-    dispatch({ type: GAME_STATE_ACTIONS.TICK, payload: { now: Date.now() } });
-  });
+  useInterval(
+    1000,
+    gameState.currentStep,
+    useCallback(() => {
+      () => {
+        dispatch({
+          type: GAME_STATE_ACTIONS.TICK,
+          payload: { now: Date.now() },
+        });
+      };
+    }, []),
+  );
 
   console.log("Game component:");
-  console.log(gameState);
+  // console.log(gameState);
   console.log(" ");
 
   const nextStep = getNextStep(gameState);
-  const winnerSequence = computeWinner(gameState);
+  const winnerSequence = useMemo(() => computeWinner(gameState), [gameState]);
   const winnerSymbol = computeWinnerSymbol(gameState, {
     nextStep,
     winnerSequence,
   });
 
   const winnerPlayer = PLAYERS.find((player) => player.symbol === winnerSymbol);
+
+  const handleCellClick = useCallback((index) => {
+    dispatch({
+      type: GAME_STATE_ACTIONS.CELL_CLICK,
+      payload: { index, now: Date.now() },
+    });
+  }, []);
 
   const { cells, currentStep, timers } = gameState;
 
@@ -86,15 +102,11 @@ export default function Game() {
         gameCells={cells.map((cell, index) => (
           <GameCell
             key={index}
+            index={index}
             symbol={cell}
             isWinner={winnerSequence?.includes(index)}
             disabled={!!winnerSymbol}
-            onClick={() =>
-              dispatch({
-                type: GAME_STATE_ACTIONS.CELL_CLICK,
-                payload: { index, now: Date.now() },
-              })
-            }
+            onClick={handleCellClick}
           />
         ))}
       />
