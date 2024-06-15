@@ -28,7 +28,7 @@ export default function Game() {
     {
       playersCount: PLAYERS_COUNT,
       defaultTimer: 60000,
-      currentMoveStart: Date.now(),
+      currentStepStart: Date.now(),
     },
     initGameState,
   );
@@ -37,7 +37,9 @@ export default function Game() {
     dispatch({ type: GAME_STATE_ACTIONS.TICK, payload: { now: Date.now() } });
   });
 
+  console.log("Game component:");
   console.log(gameState);
+  console.log(" ");
 
   const nextStep = getNextStep(gameState);
   const winnerSequence = computeWinner(gameState);

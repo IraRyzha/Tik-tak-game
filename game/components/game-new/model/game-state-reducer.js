@@ -9,11 +9,11 @@ export const GAME_STATE_ACTIONS = {
 export const initGameState = ({
   playersCount,
   defaultTimer,
-  currentMoveStart,
+  currentStepStart,
 }) => ({
   cells: new Array(19 * 19).fill(null),
   currentStep: GAME_STEPS.CROSS,
-  currentMoveStart,
+  currentStepStart,
   playersCount,
   timers: STEP_ORDER.reduce((timers, symbol, index) => {
     if (index < playersCount) {
@@ -27,26 +27,32 @@ export const gameStateReducer = (state, action) => {
   switch (action.type) {
     case GAME_STATE_ACTIONS.CELL_CLICK: {
       const { index, now } = action.payload;
+      console.log("action cell click work");
+      console.log(action.payload);
+      console.log(" ");
       if (state.cells[index]) {
         return state;
       }
       return {
         ...state,
         currentStep: getNextStep(state),
-        currentMoveStart: now,
+        currentStepStart: now,
         cells: updateCells(state, index),
         timers: updateTimers(state, now),
       };
     }
     case GAME_STATE_ACTIONS.TICK: {
       const { now } = action.payload;
+      console.log("action tick work");
+      console.log(action.payload);
+      console.log(" ");
       if (!isTimerOver(state, now)) {
         return state;
       }
       return {
         ...state,
         currentStep: getNextStep(state),
-        currentMoveStart: now,
+        currentStepStart: now,
         timers: updateTimers(state, now),
       };
     }
@@ -56,13 +62,15 @@ export const gameStateReducer = (state, action) => {
 };
 
 function updateCells(gameState, index) {
+  console.log("function updateCells work");
   return gameState.cells.map((cell, i) =>
     i === index ? gameState.currentStep : cell,
   );
 }
 
 function updateTimers(gameState, now) {
-  const diff = now - gameState.currentMoveStart;
+  console.log("function updateTimers work");
+  const diff = now - gameState.currentStepStart;
   const timer = gameState.timers[gameState.currentStep];
 
   return {
@@ -72,6 +80,7 @@ function updateTimers(gameState, now) {
 }
 
 function isTimerOver(gameState, now) {
+  console.log("function isTimerOver work");
   const timer = updateTimers(gameState, now)[gameState.currentStep];
 
   return timer <= 0;
