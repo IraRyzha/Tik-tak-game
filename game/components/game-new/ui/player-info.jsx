@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
+import { useNow } from "../lib/timer";
 import { GameSymbol } from "./game-symbol";
 
 export function PlayerInfo({
@@ -8,16 +9,20 @@ export function PlayerInfo({
   name,
   rate,
   symbol,
-  isTimerRunning,
-  seconds,
+  timer,
+  timerStartAt,
 }) {
+  const now = useNow(1000, timerStartAt);
+  const mills = Math.max(now ? timer - (now - timerStartAt) : timer, 0);
+  const seconds = Math.ceil(mills / 1000);
+
   const minutesString = String(Math.floor(seconds / 60)).padStart(2, "0");
   const secondsString = String(Math.floor(seconds % 60)).padStart(2, "0");
 
   const isDanger = seconds < 10;
 
   const getTimerColor = () => {
-    if (isTimerRunning) {
+    if (timerStartAt) {
       return isDanger ? "text-orange-600" : "text-slate-900";
     } else {
       return "text-slate-300";
