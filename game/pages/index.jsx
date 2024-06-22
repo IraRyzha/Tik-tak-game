@@ -1,17 +1,29 @@
 import { Header } from "../components/header";
 import Game from "../components/game-new/game";
-import UiTextField from "../components/uikit/ui-text-field";
+import UiTextField from "../components/uikit/fields/ui-text-field";
+import UiSelectField from "../components/uikit/fields/ui-select-field";
 
 export default function HomePage() {
   return (
     <HomePageLayout>
       {/* <Game /> */}
-      <UiTextField
+      {/* <UiTextField
         label="testLabel"
         helperText="This is a help message."
         errorText="This is a error message."
         placeholder="testPlaceholder"
         required
+      /> */}
+      <UiSelectField
+        label="Label"
+        placeholder="Placeholder"
+        required
+        helperText="Helper text"
+        // errorText="Error text"
+        options={[
+          { label: "Первый label", value: 1 },
+          { label: "Второй label", value: 2 },
+        ]}
       />
     </HomePageLayout>
   );
